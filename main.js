@@ -19,3 +19,30 @@ const firebaseConfig = {
   appId: "1:156748846014:web:4269883b14bdb400b2dfef",
   measurementId: "G-W3SBB85TF1"
 };
+
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+
+export async function ambildaftarpenjual() {
+  const refDokumen = collection(db, "penjual");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikankueri = await getDocs(kueri);
+  
+    
+  let hasil = [];
+  cuplikankueri.forEach((dok) => {
+    hasil.push({ 
+      id: dok.id, 
+      nama: dok.data().nama,
+      alamat:dok.data().alamat,
+      gmail:dok.data().gmail,
+      notlpn:dok.data().notlpn,
+      });
+  });
+  
+  return hasil;
+}
